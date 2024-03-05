@@ -39,7 +39,7 @@ pd.options.display.max_columns=None
 print(df)
 columnas=['estrato','genero','biologia','quimica','fisica','sociales','aptitud_verbal',
           'espanol_literatura','aptitud_matematica','condicion_matematica',
-          'filosofia','historia','geografia','localidad','idioma','puntos_icfes','puntos_homologados',
+          'filosofia','historia','geografia','idioma','puntos_icfes','puntos_homologados',
           'anno_nota','semestre_nota','nota','promedio']
 df2=df[columnas] 
 df2
@@ -48,18 +48,7 @@ df2
 # PREPROCESAMIENTO DE DATOS
 # -------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------
-df2['localidad']=np.where(df2['localidad'].str.contains('PUENTE ARANDA'),'PUENTE_ARANDA',df2['localidad'])
-df2['localidad']=np.where(df2['localidad'].str.contains('LA CANDELARIA'),'LA_CANDELARIA',df2['localidad'])
-df2['localidad']=np.where(df2['localidad'].str.contains('FUERA DE BOGOTA'),'FUERA_DE_BOGOTA',df2['localidad'])
-df2['localidad']=np.where(df2['localidad'].str.contains('SIN LOCALIDAD'),'SIN_LOCALIDAD',df2['localidad'])
-df2['localidad']=np.where(df2['localidad'].str.contains('RAFAEL URIBE'),'RAFAEL_URIBE',df2['localidad'])
-df2['localidad']=np.where(df2['localidad'].str.contains('ANTONIO'),'ANTONIO_NARINO',df2['localidad'])
-df2['localidad']=np.where(df2['localidad'].str.contains('SAN CRISTOBAL'),'SAN_CRISTOBAL',df2['localidad'])
-df2['localidad']=np.where(df2['localidad'].str.contains('LOS MARTIRES'),'LOS_MARTIRES',df2['localidad'])
-df2['localidad']=np.where(df2['localidad'].str.contains('CIUDAD BOLIVAR'),'CIUDAD_BOLIVAR',df2['localidad'])
-df2['localidad']=np.where(df2['localidad'].str.contains('NO REGISTRA'),'NO_REGISTRA',df2['localidad'])
-df2['localidad']=np.where(df2['localidad'].str.contains('RAFAEL_URIBE'),'RAFAEL_URIBE_URIBE',df2['localidad'])
-df2['localidad']=np.where(df2['localidad'].str.contains('SANTA FE')|df2['localidad'].str.contains('SANTA'),'SANTA_FE',df2['localidad'])
+
 columns_to_dummy = df2.select_dtypes(include=['object']).columns
 columns_to_dummy
 df_w_dummy = pd.get_dummies(df2, columns=columns_to_dummy, prefix=columns_to_dummy,dtype=int)
@@ -289,30 +278,7 @@ class df2_model(BaseModel):
     genero_FEMENINO : float 
     genero_MASCULINO : float 
     genero_NO_REGISTRA : float
-    localidad_ANTONIO_NARINO : float 
-    localidad_BARRIOS_UNIDOS : float 
-    localidad_BOSA : float 
-    localidad_CHAPINERO : float
-    localidad_CIUDAD_BOLIVAR : float
-    localidad_ENGATIVA : float 
-    localidad_FONTIBON : float 
-    localidad_FUERA_DE_BOGOTA : float 
-    localidad_KENNEDY : float 
-    localidad_LA_CANDELARIA : float 
-    localidad_LOS_MARTIRES : float 
-    localidad_NO_REGISTRA : float
-    localidad_PUENTE_ARANDA : float 
-    localidad_RAFAEL_URIBE_URIBE : float 
-    localidad_SAN_CRISTOBAL : float 
-    localidad_SANTA_FE : float 
-    localidad_SIN_LOCALIDAD : float 
-    localidad_SOACHA : float 
-    localidad_SUBA : float 
-    localidad_SUMAPAZ : float 
-    localidad_TEUSAQUILLO : float 
-    localidad_TUNJUELITO : float 
-    localidad_USAQUEN : float 
-    localidad_USME : float
+
 
 # -------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------
@@ -326,13 +292,7 @@ def predict_tree(data: df2_model):
                           data.espanol_literatura, data.aptitud_matematica, data.condicion_matematica, data.filosofia,
                           data.historia, data.geografia, data.idioma, data.puntos_icfes,data.puntos_homologados,
                           data.anno_nota, data.semestre_nota, data.promedio, data.genero_MASCULINO, data.genero_FEMENINO,
-                          data.genero_NO_REGISTRA,data.localidad_ANTONIO_NARINO, data.localidad_BARRIOS_UNIDOS,
-                          data.localidad_BOSA,data.localidad_CHAPINERO,data.localidad_CIUDAD_BOLIVAR, data.localidad_ENGATIVA,
-                          data.localidad_FONTIBON, data.localidad_FUERA_DE_BOGOTA, data.localidad_KENNEDY, data.localidad_LA_CANDELARIA,
-                          data.localidad_LOS_MARTIRES, data.localidad_NO_REGISTRA, data.localidad_PUENTE_ARANDA, data.localidad_RAFAEL_URIBE_URIBE,
-                          data.localidad_SAN_CRISTOBAL, data.localidad_SANTA_FE, data.localidad_SIN_LOCALIDAD, data.localidad_SOACHA,
-                          data.localidad_SUBA, data.localidad_SUMAPAZ, data.localidad_TEUSAQUILLO, data.localidad_TUNJUELITO,
-                          data.localidad_USAQUEN, data.localidad_USME]
+                          data.genero_NO_REGISTRA]
         prediction = int(best_regression.predict([input_features])[0])
         return {"prediction": prediction}
     except Exception as e:
@@ -346,13 +306,7 @@ def predict_tree(data: df2_model):
                           data.espanol_literatura, data.aptitud_matematica, data.condicion_matematica, data.filosofia,
                           data.historia, data.geografia, data.idioma, data.puntos_icfes,data.puntos_homologados,
                           data.anno_nota, data.semestre_nota, data.promedio, data.genero_MASCULINO, data.genero_FEMENINO,
-                          data.genero_NO_REGISTRA,data.localidad_ANTONIO_NARINO, data.localidad_BARRIOS_UNIDOS,
-                          data.localidad_BOSA,data.localidad_CHAPINERO,data.localidad_CIUDAD_BOLIVAR, data.localidad_ENGATIVA,
-                          data.localidad_FONTIBON, data.localidad_FUERA_DE_BOGOTA, data.localidad_KENNEDY, data.localidad_LA_CANDELARIA,
-                          data.localidad_LOS_MARTIRES, data.localidad_NO_REGISTRA, data.localidad_PUENTE_ARANDA, data.localidad_RAFAEL_URIBE_URIBE,
-                          data.localidad_SAN_CRISTOBAL, data.localidad_SANTA_FE, data.localidad_SIN_LOCALIDAD, data.localidad_SOACHA,
-                          data.localidad_SUBA, data.localidad_SUMAPAZ, data.localidad_TEUSAQUILLO, data.localidad_TUNJUELITO,
-                          data.localidad_USAQUEN, data.localidad_USME]
+                          data.genero_NO_REGISTRA]
         prediction = int(best_tree.predict([input_features])[0])
         return {"prediction": prediction}
     except Exception as e:
@@ -366,13 +320,7 @@ def predict_tree(data: df2_model):
                           data.espanol_literatura, data.aptitud_matematica, data.condicion_matematica, data.filosofia,
                           data.historia, data.geografia, data.idioma, data.puntos_icfes,data.puntos_homologados,
                           data.anno_nota, data.semestre_nota, data.promedio, data.genero_MASCULINO, data.genero_FEMENINO,
-                          data.genero_NO_REGISTRA,data.localidad_ANTONIO_NARINO, data.localidad_BARRIOS_UNIDOS,
-                          data.localidad_BOSA,data.localidad_CHAPINERO,data.localidad_CIUDAD_BOLIVAR, data.localidad_ENGATIVA,
-                          data.localidad_FONTIBON, data.localidad_FUERA_DE_BOGOTA, data.localidad_KENNEDY, data.localidad_LA_CANDELARIA,
-                          data.localidad_LOS_MARTIRES, data.localidad_NO_REGISTRA, data.localidad_PUENTE_ARANDA, data.localidad_RAFAEL_URIBE_URIBE,
-                          data.localidad_SAN_CRISTOBAL, data.localidad_SANTA_FE, data.localidad_SIN_LOCALIDAD, data.localidad_SOACHA,
-                          data.localidad_SUBA, data.localidad_SUMAPAZ, data.localidad_TEUSAQUILLO, data.localidad_TUNJUELITO,
-                          data.localidad_USAQUEN, data.localidad_USME]
+                          data.genero_NO_REGISTRA]
         prediction = int(best_rf.predict([input_features])[0])
         return {"prediction": prediction}
     except Exception as e:
@@ -386,13 +334,7 @@ def predict_tree(data: df2_model):
                           data.espanol_literatura, data.aptitud_matematica, data.condicion_matematica, data.filosofia,
                           data.historia, data.geografia, data.idioma, data.puntos_icfes,data.puntos_homologados,
                           data.anno_nota, data.semestre_nota, data.promedio, data.genero_MASCULINO, data.genero_FEMENINO,
-                          data.genero_NO_REGISTRA,data.localidad_ANTONIO_NARINO, data.localidad_BARRIOS_UNIDOS,
-                          data.localidad_BOSA,data.localidad_CHAPINERO,data.localidad_CIUDAD_BOLIVAR, data.localidad_ENGATIVA,
-                          data.localidad_FONTIBON, data.localidad_FUERA_DE_BOGOTA, data.localidad_KENNEDY, data.localidad_LA_CANDELARIA,
-                          data.localidad_LOS_MARTIRES, data.localidad_NO_REGISTRA, data.localidad_PUENTE_ARANDA, data.localidad_RAFAEL_URIBE_URIBE,
-                          data.localidad_SAN_CRISTOBAL, data.localidad_SANTA_FE, data.localidad_SIN_LOCALIDAD, data.localidad_SOACHA,
-                          data.localidad_SUBA, data.localidad_SUMAPAZ, data.localidad_TEUSAQUILLO, data.localidad_TUNJUELITO,
-                          data.localidad_USAQUEN, data.localidad_USME]
+                          data.genero_NO_REGISTRA]
         prediction = int(best_adaboost.predict([input_features])[0])
         return {"prediction": prediction}
     except Exception as e:
@@ -406,13 +348,7 @@ def predict_tree(data: df2_model):
                           data.espanol_literatura, data.aptitud_matematica, data.condicion_matematica, data.filosofia,
                           data.historia, data.geografia, data.idioma, data.puntos_icfes,data.puntos_homologados,
                           data.anno_nota, data.semestre_nota, data.promedio, data.genero_MASCULINO, data.genero_FEMENINO,
-                          data.genero_NO_REGISTRA,data.localidad_ANTONIO_NARINO, data.localidad_BARRIOS_UNIDOS,
-                          data.localidad_BOSA,data.localidad_CHAPINERO,data.localidad_CIUDAD_BOLIVAR, data.localidad_ENGATIVA,
-                          data.localidad_FONTIBON, data.localidad_FUERA_DE_BOGOTA, data.localidad_KENNEDY, data.localidad_LA_CANDELARIA,
-                          data.localidad_LOS_MARTIRES, data.localidad_NO_REGISTRA, data.localidad_PUENTE_ARANDA, data.localidad_RAFAEL_URIBE_URIBE,
-                          data.localidad_SAN_CRISTOBAL, data.localidad_SANTA_FE, data.localidad_SIN_LOCALIDAD, data.localidad_SOACHA,
-                          data.localidad_SUBA, data.localidad_SUMAPAZ, data.localidad_TEUSAQUILLO, data.localidad_TUNJUELITO,
-                          data.localidad_USAQUEN, data.localidad_USME]
+                          data.genero_NO_REGISTRA]
         prediction = int(best_gbr.predict([input_features])[0])
         return {"prediction": prediction}
     except Exception as e:
@@ -427,13 +363,7 @@ def predict_tree(data: df2_model):
                           data.espanol_literatura, data.aptitud_matematica, data.condicion_matematica, data.filosofia,
                           data.historia, data.geografia, data.idioma, data.puntos_icfes,data.puntos_homologados,
                           data.anno_nota, data.semestre_nota, data.promedio, data.genero_MASCULINO, data.genero_FEMENINO,
-                          data.genero_NO_REGISTRA,data.localidad_ANTONIO_NARINO, data.localidad_BARRIOS_UNIDOS,
-                          data.localidad_BOSA,data.localidad_CHAPINERO,data.localidad_CIUDAD_BOLIVAR, data.localidad_ENGATIVA,
-                          data.localidad_FONTIBON, data.localidad_FUERA_DE_BOGOTA, data.localidad_KENNEDY, data.localidad_LA_CANDELARIA,
-                          data.localidad_LOS_MARTIRES, data.localidad_NO_REGISTRA, data.localidad_PUENTE_ARANDA, data.localidad_RAFAEL_URIBE_URIBE,
-                          data.localidad_SAN_CRISTOBAL, data.localidad_SANTA_FE, data.localidad_SIN_LOCALIDAD, data.localidad_SOACHA,
-                          data.localidad_SUBA, data.localidad_SUMAPAZ, data.localidad_TEUSAQUILLO, data.localidad_TUNJUELITO,
-                          data.localidad_USAQUEN, data.localidad_USME]
+                          data.genero_NO_REGISTRA]
         prediction = int(best_xgb.predict([input_features])[0])
         return {"prediction": prediction}
     except Exception as e:
@@ -448,13 +378,7 @@ def predict_tree(data: df2_model):
                           data.espanol_literatura, data.aptitud_matematica, data.condicion_matematica, data.filosofia,
                           data.historia, data.geografia, data.idioma, data.puntos_icfes,data.puntos_homologados,
                           data.anno_nota, data.semestre_nota, data.promedio, data.genero_MASCULINO, data.genero_FEMENINO,
-                          data.genero_NO_REGISTRA,data.localidad_ANTONIO_NARINO, data.localidad_BARRIOS_UNIDOS,
-                          data.localidad_BOSA,data.localidad_CHAPINERO,data.localidad_CIUDAD_BOLIVAR, data.localidad_ENGATIVA,
-                          data.localidad_FONTIBON, data.localidad_FUERA_DE_BOGOTA, data.localidad_KENNEDY, data.localidad_LA_CANDELARIA,
-                          data.localidad_LOS_MARTIRES, data.localidad_NO_REGISTRA, data.localidad_PUENTE_ARANDA, data.localidad_RAFAEL_URIBE_URIBE,
-                          data.localidad_SAN_CRISTOBAL, data.localidad_SANTA_FE, data.localidad_SIN_LOCALIDAD, data.localidad_SOACHA,
-                          data.localidad_SUBA, data.localidad_SUMAPAZ, data.localidad_TEUSAQUILLO, data.localidad_TUNJUELITO,
-                          data.localidad_USAQUEN, data.localidad_USME]
+                          data.genero_NO_REGISTRA]
         prediction = int(vr.predict([input_features])[0])
         return {"prediction": prediction}
     except Exception as e:
