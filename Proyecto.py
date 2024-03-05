@@ -66,27 +66,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 sc = StandardScaler()
 X_train = sc.fit_transform(X_train)
 X_test = sc.transform(X_test)
-# -------------------------------------------------------------------------------
-# -------------------------------------------------------------------------------
-# MODELO DE REGRESIÓN LINEAL
-# -------------------------------------------------------------------------------
-# -------------------------------------------------------------------------------
-regression = LinearRegression()
-param_grid = {
-    'fit_intercept': [True, False]
-}
-grid_search = GridSearchCV(estimator=regression, param_grid=param_grid, scoring='r2', cv=5, n_jobs=-1)
-grid_search.fit(X_train, y_train)
-best_params = grid_search.best_params_
-print("Mejores hiperparámetros:", best_params)
-best_regression = LinearRegression(fit_intercept=best_params['fit_intercept'])
-best_regression.fit(X_train, y_train)
-y_train_pred = best_regression.predict(X_train)
-y_test_pred = best_regression.predict(X_test)
-r2_train = r2_score(y_train, y_train_pred)
-r2_test = r2_score(y_test, y_test_pred)
-print("R^2 en entrenamiento:", r2_train)
-print("R^2 en prueba:", r2_test)
+
 # -------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------
 # MODELO DE ÁRBOL DE DECISIÓN
@@ -228,8 +208,6 @@ y_test_hat = vr.predict(X_test)
 # -------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------
 
-with open('Regresion_model.pkl', 'wb') as file:
-    pickle.dump(best_regression, file)
 
 with open("DecisionTreeRegressor.pkl", "wb") as file:
     pickle.dump(best_tree, file)
@@ -285,18 +263,7 @@ class df2_model(BaseModel):
 # ENDPOINTS MODELOS
 # -------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------
-@app.post("/predict_regression")
-def predict_tree(data: df2_model):
-    try:
-        input_features = [data.estrato, data.biologia, data.quimica, data.fisica, data.sociales, data.aptitud_verbal,
-                          data.espanol_literatura, data.aptitud_matematica, data.condicion_matematica, data.filosofia,
-                          data.historia, data.geografia, data.idioma, data.puntos_icfes,data.puntos_homologados,
-                          data.anno_nota, data.semestre_nota, data.promedio, data.genero_MASCULINO, data.genero_FEMENINO,
-                          data.genero_NO_REGISTRA]
-        prediction = int(best_regression.predict([input_features])[0])
-        return {"prediction": prediction}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+
 
 # Endpoint para el modelo de random forest
 @app.post("/predict_tree")
@@ -314,7 +281,7 @@ def predict_tree(data: df2_model):
 
 
 @app.post("/predict_rf")
-def predict_tree(data: df2_model):
+def predict_rf(data: df2_model):
     try:
         input_features = [data.estrato, data.biologia, data.quimica, data.fisica, data.sociales, data.aptitud_verbal,
                           data.espanol_literatura, data.aptitud_matematica, data.condicion_matematica, data.filosofia,
@@ -328,7 +295,7 @@ def predict_tree(data: df2_model):
 
 
 @app.post("/predict_adaboost")
-def predict_tree(data: df2_model):
+def predict_adaboost(data: df2_model):
     try:
         input_features = [data.estrato, data.biologia, data.quimica, data.fisica, data.sociales, data.aptitud_verbal,
                           data.espanol_literatura, data.aptitud_matematica, data.condicion_matematica, data.filosofia,
@@ -342,7 +309,7 @@ def predict_tree(data: df2_model):
 
 
 @app.post("/predict_gradient")
-def predict_tree(data: df2_model):
+def predict_gradient(data: df2_model):
     try:
         input_features = [data.estrato, data.biologia, data.quimica, data.fisica, data.sociales, data.aptitud_verbal,
                           data.espanol_literatura, data.aptitud_matematica, data.condicion_matematica, data.filosofia,
@@ -357,7 +324,7 @@ def predict_tree(data: df2_model):
 
 
 @app.post("/predict_xgboost")
-def predict_tree(data: df2_model):
+def predict_xgboost(data: df2_model):
     try:
         input_features = [data.estrato, data.biologia, data.quimica, data.fisica, data.sociales, data.aptitud_verbal,
                           data.espanol_literatura, data.aptitud_matematica, data.condicion_matematica, data.filosofia,
@@ -372,7 +339,7 @@ def predict_tree(data: df2_model):
     
     
 @app.post("/predict_voting")
-def predict_tree(data: df2_model):
+def predict_voting(data: df2_model):
     try:
         input_features = [data.estrato, data.biologia, data.quimica, data.fisica, data.sociales, data.aptitud_verbal,
                           data.espanol_literatura, data.aptitud_matematica, data.condicion_matematica, data.filosofia,
