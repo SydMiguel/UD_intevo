@@ -28,6 +28,9 @@ from sklearn.metrics import mean_squared_error
 from sklearn.metrics import median_absolute_error
 from sklearn.metrics import r2_score
 import warnings
+
+from fastapi.middleware.cors import CORSMiddleware
+
 # -------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------
 # CARGUE DE DATOS
@@ -176,6 +179,14 @@ with open("VotingRegressor.pkl", "wb") as file:
 # -------------------------------------------------------------------------------
 
 app = FastAPI()
+origins = ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 from pydantic import BaseModel
 class df2_model(BaseModel):
     estrato: float
