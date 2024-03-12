@@ -36,7 +36,8 @@ from fastapi.middleware.cors import CORSMiddleware
 # CARGUE DE DATOS
 # -------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------
-carpeta='C:/Users/Intevo/Desktop/UD/'
+# carpeta='C:/Users/Intevo/Desktop/UD/'
+carpeta='C:/Users/santi/OneDrive/Documentos/INTEVO/U-Distrital/'
 df=pd.read_csv(carpeta+'1_Base_de_datos_ORIGINAL estudiantes_2008_2019.txt',sep="|")
 pd.options.display.max_columns=None
 print(df)
